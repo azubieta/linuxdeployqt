@@ -277,6 +277,9 @@ bool copyFilePrintStatus(const QString &from, const QString &to)
 }
 
 bool copyCopyrightFile(QString libPath){
+    auto deployCopyrightFlag = qgetenv ( "LINUX_DEPLOY_QT_EXCLUDE_COPYRIGHTS" );
+    if (!deployCopyrightFlag.isEmpty())
+        return true;
 
     /* When deploying files (e.g., libraries) from the
      * system, then try to also deploy their copyright file.
@@ -297,7 +300,7 @@ bool copyCopyrightFile(QString libPath){
         LogNormal() << "dpkg-query not found, hence not deploying copyright files";
         return false;
     }
-    
+
     QString copyrightFilePath;
 
     /* Find out which package the file being deployed belongs to */
